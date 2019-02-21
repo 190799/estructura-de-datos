@@ -1,0 +1,52 @@
+// sumatoria de vectores.cpp : Defines the entry point for the console application.
+//
+
+#include "stdafx.h"
+#include <iostream>
+#include "conio.h"
+#include "math.h"
+#define MAX 100
+using namespace std;
+void cargar (int t, int v[]);
+int sumatoria(int t, int v[]);
+float promedio(int t, int v[]);
+
+void main()
+{
+	int t,v[MAX];
+	do{cout<<"ingrese el tamaño de su vector: ";
+	cin>>t;}
+		while (t>=MAX ||t<0);
+	cargar(t,v);
+	cout<<"la sumatoria de los vectores es: "<<sumatoria(t,v)<<endl;
+	cout<<"el promedio de los vectores es: "<<promedio(t,v)<<endl;
+	getch ();
+}
+void cargar (int t, int v[])
+{
+	for(int i=0; i<t;i++)
+	{
+		cout<<"ingrese su vector X"<<i+1<<": ";
+		cin>>v[i];
+	}
+}
+int sumatoria(int t, int v[])
+{
+	int acu=0;
+	for(int i=0; i<t;i++)
+	{
+		acu=acu+v[i];
+	}
+	return acu;
+}
+float promedio(int t, int v[])
+{
+	float acu=0;
+	for(int i=0; i<t;i++)
+	{
+		acu=acu+v[i];
+	}
+	acu=acu/t;
+	return acu;
+
+}
