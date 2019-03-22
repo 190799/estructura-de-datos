@@ -1,0 +1,130 @@
+***Tarea.h***
+#pragma once
+#include <string>
+using namespace std;
+class fecha
+{
+private:
+	int dd, mm, aa;
+public:
+	fecha (int _dd, int _mm, int _aa);
+	fecha (string fecha);
+	fecha (long fecha);
+	~fecha(void);
+	bool validarfecha();
+};
+***tarea.cpp***
+#include "StdAfx.h"
+#include "fecha.h"
+#include <string>
+using namespace std;
+
+
+fecha::fecha(int _dd, int _mm, int _aa)
+{
+	dd=_dd;
+	mm=_mm;
+	aa=_aa;
+}
+
+fecha::fecha(string fecha)
+{	dd=(atoi(fecha.substr(0,2).c_str()));
+	mm=(atoi(fecha.substr(3,5).c_str()));
+	aa=(atoi(fecha.substr(6,4).c_str()));
+}
+fecha::fecha(long fecha)
+{
+	dd=fecha/1000000;
+	mm=(fecha-(dd*1000000))/10000;
+	aa=(fecha-(dd*1000000)-(mm*1000));
+}
+
+
+fecha::~fecha(void)
+{
+}
+bool fecha::validarfecha()
+{
+	bool t=true;
+   if(mm>=1 && mm<=12){
+	   if(mm==1 || mm==3 || mm==5 || mm==7 || mm==8 || mm==10 || mm==12)
+	     if (dd>=1 && dd<=31)
+		   return t;
+	     else 
+		   t=false;
+	   else
+		   if (mm==4 || mm== 6 || mm==9 || mm==11)
+	           if(dd>=1 && dd<=30)
+				   return t;
+		       else 
+				   t=false;
+		   else 
+			   //febrero
+			   if(aa%400==0 || (aa%4==0 && aa%100!=0))
+				  if (dd>=1 && dd<=29)
+					  return t;
+				  else 
+					  t=false;
+			   else
+				   if (dd>=1 && dd<=28)
+					   return t;
+				   else 
+					   t=false;
+   }
+   else
+	   t=false;
+   return t;
+
+}
+
+***Main***
+#include "stdafx.h"
+#include "conio.h"
+#include <iostream>
+#include "fecha.h"
+#include <string>
+
+using namespace std;
+
+void main()
+{
+	int dd,mm,aa,op;
+	string fecha;
+	long fecha1;
+	do{
+		cout<<"-----                M E N U                 -----"<<endl;
+		cout<<"|1.- Fecha de forma ``19/07/1999``.              |"<<endl;
+		cout<<"|2.- fecha de forma ``19071999``.                |"<<endl;
+		cout<<"|3.- Fecha de forma ``dia=19; mes=10; año=1999.  |"<<endl;
+		cout<<"|0.- Salir.                                      |"<<endl;
+		cout<<"--------------------------------------------------"<<endl;
+		cout<<" Elija una opcion"<<endl;
+		cin>>op;
+		switch(op){
+		case 1:
+			getline(cin,fecha);
+			fecha f1(fecha);
+			break;
+		case 2:
+			cin>>fecha1;
+			fecha f2(fecha1);
+			break;
+		case 3:
+			cout<<"ingrese el dia: ";
+			cin>>dd;
+			cout<<"ingrese el mes: ";
+			cin>>mm;
+			cout<<"ingrese el año: ";
+			cin>>aa;
+			fecha f3(dd,mm,aa);
+			break;
+		case 0: 
+			cout<<"Salir"<<endl;
+			break;
+		default:
+			cout<<"Error: Opcion no valida..."<<endl;
+			break;
+		}
+	}while(op!=0);
+	getch ();
+}
