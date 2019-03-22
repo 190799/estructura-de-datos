@@ -85,6 +85,9 @@ bool fecha::validarfecha()
 #include <string>
 
 using namespace std;
+void f(string fecha1);
+void ff(long fecha2);
+void fe(int d,int m,int a);
 
 void main()
 {
@@ -102,21 +105,13 @@ void main()
 		cin>>op;
 		switch(op){
 		case 1:
-			getline(cin,fecha);
-			fecha f1(fecha);
+			f(fecha);
 			break;
 		case 2:
-			cin>>fecha1;
-			fecha f2(fecha1);
+			ff(fecha1);
 			break;
 		case 3:
-			cout<<"ingrese el dia: ";
-			cin>>dd;
-			cout<<"ingrese el mes: ";
-			cin>>mm;
-			cout<<"ingrese el año: ";
-			cin>>aa;
-			fecha f3(dd,mm,aa);
+			fe(dd,mm,aa);
 			break;
 		case 0: 
 			cout<<"Salir"<<endl;
@@ -127,4 +122,47 @@ void main()
 		}
 	}while(op!=0);
 	getch ();
+}
+void f(string fecha1)
+{
+	string fecha_;
+	getline(cin,fecha_);
+	fecha f1(fecha_);
+	if (f1.validarfecha()==true)
+	{
+		cout<<"la fecha es valida.";
+	}else 
+	{
+		cout<<"la fecha no es balida";
+	}
+}
+void ff(long fecha2)
+{
+	int fecha1;
+	cin>>fecha1;
+	fecha f2(fecha1);
+	if (f2.validarfecha()==true)
+	{
+		cout<<"la fecha es valida.";
+	}else 
+	{
+		cout<<"la fecha no es balida";
+	}
+}
+void fe(int dd, int mm, int aa)
+{
+	cout<<"ingrese el dia: ";
+	cin>>dd;
+	cout<<"ingrese el mes: ";
+	cin>>mm;
+	cout<<"ingrese el año: ";
+	cin>>aa;
+	fecha f3(dd,mm,aa);
+	if (f3.validarfecha()==true)
+	{
+		cout<<"la fecha es valida.";
+	}else 
+	{
+		cout<<"la fecha no es balida";
+	}
 }
