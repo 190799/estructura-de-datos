@@ -1,0 +1,777 @@
+#include "stdafx.h"
+#include "Proyecto.h"
+#include "rutina.h"
+#include "dia.h"
+#include <cstdlib>
+#include "actividades.h"
+#include "Datos.h"
+#include "Operaciones.h"
+void main ()
+{ system("color 09");
+  Proyecto P ; actividades a; dia d;
+  int opc,opc1;  float tiemp, coor,hi,hf; bool k;
+  int an; string act;
+  P.menuan();do{cout<<"Ingrese el anillo proximo a su domicilio: ";cin>>an;}while(an<1||an>5); 
+  coor=P.getcor(an);
+  rutina r(coor); 
+
+
+  do{P.MostrarMenuPrincipal();
+     cout<<"Ingrese una opcion: "; cin>>opc;
+     switch(opc)
+     {case 1:
+			do{
+			P.Menu1();
+			cout<<"Ingrese una opcion: ";
+			cin>>opc1;
+			cout<<"Nombre de actividad: "; cin.ignore();
+			getline(cin,act);
+			if( opc1==1)
+			{cout<<"Ingrese tiempo de duracion en cuartiles: "; cin>>tiemp;
+			P.menuan();
+			do{cout<<"Ingrese el anillo proximo a su actividad: ";cin>>an;}while(an<1||an>5);
+			coor=P.getcor(an);
+			a.encolar(tiemp,coor,act); break;
+			}
+			 else {if (opc1==2)
+					{do{cout<<"Ingrese hora de inicio en cuartiles: "; cin>>hi;}while(hi<7);
+					do{cout<<"Ingrese hora de finalizacion en cuartiles: "; cin>>hf;}while(hf<=hi);
+					k=r.verificarespacio(hi,hf);
+					if (k==false)
+					 {cout<<"Esas horas estan ocupadas"<<endl;system ("pause");
+					} else 
+					{P.menuan();do{cout<<"Ingrese el anillo proximo a su actividad: ";cin>>an;}while(an<1||an>5);
+					coor=P.getcor(an);
+					d.almacenar(hi,hf,coor,act);
+					}break;
+					}
+					else { if(opc1!=3)
+							{cout<<"Opcion no valida"; system ("pause");
+							}
+						}
+				}
+			 }while(opc1!=3);system ("cls");break;
+
+       case 2: 
+       cout<<"Nombre de actividad: "; cin.ignore();
+	   getline(cin,act);
+	   do{cout<<"Ingrese hora de inicio en cuartiles: "; cin>>hi;}while(hi<7);
+	   do{cout<<"Ingrese hora de finalizacion en cuartiles: "; cin>>hf;}while(hf<=hi);
+	   k=r.verificarespacio(hi,hf);
+	   if (k==true)
+         {P.menuan();do{cout<<"Ingrese el anillo proximo a su actividad: ";cin>>an;}while(an<1||an>5);
+          coor=P.getcor(an);
+          d.almacenar(hi,hf,coor,act); 
+         } else {cout<<"Esas horas estan ocupadas"<<endl;system("pause");
+         system("cls");
+         break;
+case 3:a.traspaso();
+	d.mostrar();
+	system("pause");
+break;
+case 4:
+break;
+case 5: cout<<"Compre nuestra idea! Gracias!"<<endl;
+break;
+default: cout<<"Opcion no valida"<<endl;
+break;
+}
+}
+  }while(opc!=5);
+ system ("pause");
+ 
+}
+#include "StdAfx.h"
+#include "rutina.h"
+
+
+
+rutina::~rutina(void)
+{
+}
+#pragma once
+#include "dia.h"
+
+class rutina : public dia
+{
+private: 
+public:
+
+	rutina(float cor)
+	{coor=cor;
+	}
+	~rutina(void);
+
+	bool verificarespacio(float h1, float h2)
+	{ bool k=true;
+	h2=(h2-7)*4;
+	h1=(h1-7)*4;
+	int hin=(int)h1;
+	int hfi=(int)h2;
+	  for(int a=hin;a<hfi;a++)
+	    {if (horas[a]!=0)
+	       {return k=false;
+	       }
+	    }
+	 return k;
+	}
+	
+	
+
+};
+#include "StdAfx.h"
+#include "Proyecto.h"
+#include <iostream>
+ using namespace std;
+
+
+Proyecto::~Proyecto(void)
+{
+}
+
+void Proyecto::MostrarMenuPrincipal()
+{system("cls");
+  cout<<"               \n";
+  cout<<"(1) Ingresar Actividades \n";
+  cout<<"(2) Ingresar Rutina \n";
+  cout<<"(3) Ver actividades pendientes \n";
+  cout<<"(4) Ver actividades realizadas \n";
+  cout<<"(5) Salir \n";
+}
+
+void Proyecto::Menu1()
+{ cout<<"(1) Tiempo de duracion  \n";
+  cout<<"(2) Intervalo de horas  \n";
+  cout<<"(3) Volver \n";
+}
+#pragma once
+#include "conio.h"
+#include <iostream>
+#include "string.h"
+#include "math.h"
+ using namespace std;
+
+
+class Proyecto
+{
+private:
+public:
+
+Proyecto(void)
+{ 
+}
+~Proyecto(void);
+void MostrarMenuPrincipal();
+void Menu1();
+void Menu2();
+
+
+void menuan()
+{cout<< "[1] -->	Primer anillo"<<endl;
+cout<< "[2] -->	Segundo anillo"<<endl;
+cout<< "[3] -->	Tercer anillo interno"<<endl;
+cout<< "[4] -->	Tercer anillo externo"<<endl;
+cout<< "[5] -->	Cuarto anillo"<<endl;
+}
+
+float getcor(int an)
+{float cof; system ("cls");
+cout<<"Ingrese:"<<endl;
+	switch(an)
+{
+case 1: do{cout<<"1  --> monseñor"<<endl;
+cout<<"2  --> beni"<<endl;
+cout<<"3  --> trinidad o velasco"<<endl;
+cout<<"4  --> bernardo sosa o tao"<<endl;
+cout<<"5  --> suarez arana"<<endl;
+cout<<"6  --> charcas"<<endl;
+cout<<"7  --> melchor pinto"<<endl;
+cout<<"8  --> brasil"<<endl;
+cout<<"9  --> mariano arrien o el fuerte"<<endl;
+cout<<"10  --> argentina"<<endl;
+cout<<"11  --> velarde"<<endl;
+cout<<"12 --> omar chavez o escuadron velasco"<<endl;
+cout<<"13  --> grigota"<<endl;
+cout<<"14 --> mariano saucedo o mario flores"<<endl;
+cout<<"15 --> landivar"<<endl;
+cout<<"16 --> hernando sanabria"<<endl;
+cout<<"20 --> peru"<<endl;
+cout<<"20  --> honduras"<<endl;
+cout<<"20  --> fortin toledo o canada"<<endl;
+cout<<"20  --> libertad"<<endl;
+cin>>cof;}while(cof<1 || cof>21);
+	break;
+case 2: do{cout<<"1.1  --> monseñor o banzer"<<endl;
+cout<<"2.1  --> beni"<<endl;
+cout<<"3.1  --> trinidad o velasco o alemana"<<endl;
+cout<<"4.1  --> bernardo sosa o tao o mutualista"<<endl;
+cout<<"5.1  --> suarez arana o paragua"<<endl;
+cout<<"6.1  --> charcas o guapay"<<endl;
+cout<<"7.1  --> melchor pinto o virgen de cotoca"<<endl;
+cout<<"8.1  --> brasil"<<endl;
+cout<<"9.1  --> mariano arrien o el fuerte o tres pasos al frente"<<endl;
+cout<<"10.1  --> san aurelio"<<endl;
+cout<<"10.15  --> argentina o la barranca"<<endl;
+cout<<"11.1 --> velarde o santos dumont"<<endl;
+cout<<"12.1  --> omar chavez o escuadron velasco"<<endl;
+cout<<"13.1  --> grigota o doble vida la guardia"<<endl;
+cout<<"14.1 --> mariano saucedo o mario flores o pirai"<<endl;
+cout<<"15.1 --> landivar o roca y coronado"<<endl;
+cout<<"16.1 --> hernando sanabria o radial 21"<<endl;
+cout<<"17.1 --> peru o busch"<<endl;
+cout<<"18.1  --> honduras o san martin"<<endl;
+cout<<"19.1  --> fortin toledo o canada o la salle"<<endl;
+cout<<"20.1  --> libertad o ovidio barbery"<<endl;
+cin>>cof;}while(cof<1 || cof>21);
+	break;
+case 3: do{cout<<"1.2  --> banzer"<<endl;
+cout<<"2.2  --> beni"<<endl;
+cout<<"3.2  --> alemana"<<endl;
+cout<<"4.2  --> mutualista"<<endl;
+cout<<"5.2  --> paragua"<<endl;
+cout<<"6.2  --> guapay"<<endl;
+cout<<"7.2  --> virgen de cotoca"<<endl;
+cout<<"8.2  --> brasil"<<endl;
+cout<<"9.2  --> tres pasos al frente"<<endl;
+cout<<"11.2 --> velarde o santos dumont"<<endl;
+cout<<"12.2  --> prefecto rivas"<<endl;
+cout<<"12.25  --> dario leigue anguino"<<endl;
+cout<<"13.2  --> doble vida la guardia"<<endl;
+cout<<"13.25  --> radial castilla"<<endl;
+cout<<"14.2 --> pirai"<<endl;
+cout<<"14.25 --> chiriguano o radial 19"<<endl;
+cout<<"15.2 --> roca y coronado"<<endl;
+cout<<"16.2 --> hernando sanabria o radial 21"<<endl;
+cout<<"17.2 --> peru o busch"<<endl;
+cout<<"18.2  --> honduras o san martin"<<endl;
+cout<<"19.2  --> canal isuto o la salle"<<endl;
+cout<<"20.2  --> radial 26 o ovidio barbery"<<endl;
+cout<<"20.25  --> radial 27 o gral franco"<<endl;
+cin>>cof;}while(cof<1 || cof>21);
+	break;
+case 5: do{cout<<"1.4  --> banzer"<<endl;
+cout<<"2.4  --> beni"<<endl;
+cout<<"3.4  --> alemana"<<endl;
+cout<<"4.4  --> mutualista"<<endl;
+cout<<"5.4  --> paragua"<<endl;
+cout<<"6.4  --> guapay"<<endl;
+cout<<"7.4  --> virgen de cotoca"<<endl;
+cout<<"8.4  --> brasil"<<endl;
+cout<<"9.4  --> tres pasos al frente"<<endl;
+cout<<"9.45  --> francisco mora o adolfo roman"<<endl;
+cout<<"10.4  --> san aurelio"<<endl;
+cout<<"10.45  --> la barranca"<<endl;
+cout<<"11.4 --> velarde o santos dumont"<<endl;
+cout<<"11.95 --> radial 13"<<endl;
+cout<<"12.4  --> prefecto rivas o benjamin burela"<<endl;
+cout<<"12.45  --> dario leigue anguino o radial 16"<<endl;
+cout<<"13.4  --> doble vida la guardia"<<endl;
+cout<<"13.45  --> radial castilla"<<endl;
+cout<<"14.4 --> pirai"<<endl;
+cout<<"14.45 --> chiriguano o radial 19"<<endl;
+cout<<"15.4 --> roca y coronado"<<endl;
+cout<<"16.4 --> hernando sanabria o radial 21"<<endl;
+cout<<"17.4 --> busch"<<endl;
+cout<<"17.45 --> radial 23"<<endl;
+cout<<"18.4  --> honduras o san martin"<<endl;
+cout<<"19.4  --> canal isuto o la salle"<<endl;
+cout<<"20.4  --> radial 26 o ovidio barbery"<<endl;
+cout<<"20.45  --> radial 27 o gral franco"<<endl;
+cin>>cof;}while(cof<1 || cof>21);
+	break;
+case 4: do{cout<<"1.3  --> banzer"<<endl;
+cout<<"2.3  --> beni"<<endl;
+cout<<"3.3  --> alemana"<<endl;
+cout<<"4.3  --> mutualista"<<endl;
+cout<<"5.3  --> paragua"<<endl;
+cout<<"6.3  --> guapay"<<endl;
+cout<<"7.3  --> virgen de cotoca"<<endl;
+cout<<"8.3  --> brasil"<<endl;
+cout<<"9.3  --> tres pasos al frente"<<endl;
+cout<<"9.35  --> francisco mora o adolfo roman"<<endl;
+cout<<"10.3  --> san aurelio"<<endl;
+cout<<"10.35  --> la barranca"<<endl;
+cout<<"11.3 --> velarde o santos dumont"<<endl;
+cout<<"11.85 --> radial 13"<<endl;
+cout<<"12.3  --> prefecto rivas o benjamin burela"<<endl;
+cout<<"12.35  --> dario leigue anguino o radial 16"<<endl;
+cout<<"13.3  --> doble vida la guardia"<<endl;
+cout<<"13.35  --> radial castilla"<<endl;
+cout<<"14.3 --> pirai"<<endl;
+cout<<"14.35 --> chiriguano o radial 19"<<endl;
+cout<<"15.3 --> roca y coronado"<<endl;
+cout<<"16.3 --> hernando sanabria o radial 21"<<endl;
+cout<<"17.3 --> busch"<<endl;
+cout<<"17.35 --> radial 23"<<endl;
+cout<<"18.3  --> honduras o san martin"<<endl;
+cout<<"19.3  --> canal isuto o la salle"<<endl;
+cout<<"20.3  --> radial 26 o ovidio barbery"<<endl;
+cout<<"20.35  --> radial 27 o gral franco"<<endl;
+cin>>cof;}while(cof<1 || cof>21);
+	break;
+}return cof;
+}
+};
+#include "StdAfx.h"
+#include "Operaciones.h"
+
+
+Operaciones::Operaciones(string na)
+{ nombreArchivo = na ;
+}
+
+void Operaciones::IntroducirDatos(Datos *nuevoReg)
+{string	nombre;
+ int	hinicio,hfin,coordenadas/*,anillo*/	;
+
+ fflush( stdin );// ?
+	cout << "Nombre : ";
+	getline(cin, nombre); 		
+	cout << "Hora de inicio : ";
+	cin >> hinicio;
+	cout << "Hora de fin : ";
+	cin >> hfin;
+	cout << "Ingese coordenadas : ";
+	cin >> coordenadas;
+	//cout << "Ingrese anilo proximo a su actividad : ";
+	//cin >> anillo;
+	nuevoReg->setDatos(nombre,hinicio,hfin,coordenadas/*,anillo*/);	
+}
+
+void Operaciones::MostrarRegistro(int nroReg)
+{ cout << endl << nroReg << ".-  " ;
+  cout<< D->getNombre() <<"  ";
+  cout<< D->getHinicio()<<"  " ;
+  cout<< D->getHfin()<<"  ";
+  cout<< D->getCoordenadas()<<endl;
+ // cout<< D->getAnillo();
+}
+
+void Operaciones::AdicionarNuevo()
+{ ofstream fsalida(nombreArchivo, ios::app | ios::binary);	
+		D = new Datos();
+		IntroducirDatos(D);
+		D->GuardarArchivo(fsalida);	
+		fsalida.close();
+}
+
+void Operaciones::Listar()
+{ int cr = 0;
+		cout << endl<<endl << "Los registros son : " << endl;
+		D = new Datos();
+		ifstream fentrada(nombreArchivo, ios::in | ios::binary);
+		while (D->LeerArchivo(fentrada) == true) {
+			   cr++;
+			
+			   MostrarRegistro(cr);
+			   
+		    }
+		fentrada.close();
+}
+
+
+int Operaciones::BuscarRegistro()
+	{ int nroReg;
+		cout << endl<<endl<< "Introducir numero de registro a buscar :  ";
+		cin >> nroReg;
+		D = new Datos();
+		ifstream fentrada(nombreArchivo, ios::in | ios::binary);
+		if(D->BuscarArchivo(fentrada,nroReg) == true) {
+			MostrarRegistro(nroReg);			
+		} else {
+			cout << endl << "Registro no existe";
+			nroReg=-1;
+		}
+		fentrada.close();
+		return(nroReg);
+	}
+	
+void Operaciones::EliminarRegistro()
+{ int nroReg;
+		nroReg = BuscarRegistro();
+		if(nroReg > 0){
+			fstream fes(nombreArchivo, ios::in | ios::out | ios::binary);
+			D = new Datos();
+			if (D->EliminarArchivo(fes, nroReg) == true) {
+				cout << endl << "Registro eliminado correctmente "<<endl;
+			} else {
+				cout << endl << "Registro no existe para eliminar"<<endl;
+			}
+			fes.close();
+		}
+}
+	
+void Operaciones::ModificarRegistro()
+	{int nroReg;
+     nroReg = BuscarRegistro();
+		if(nroReg>0){
+			fstream fes(nombreArchivo, ios::in | ios::out | ios::binary);
+			D = new Datos();
+			IntroducirDatos(D);
+			if (D->ModificarArchivo(fes, nroReg) == true) {
+				cout << endl << "modificado correctamente... "<< endl ;
+			} else {
+				cout << endl << "Registro no existe pa modificar";
+			}
+			fes.close();
+                    }
+	}
+#pragma once
+#include <fstream>
+#include <string>
+#include "Datos.h"
+ using namespace std;
+class Operaciones
+{
+private:
+	string nombreArchivo;
+	Datos *D ;
+public:
+	Operaciones(string na);
+	void IntroducirDatos(Datos *nuevoReg);
+	void MostrarRegistro(int nroReg);
+	void AdicionarNuevo();
+	void Listar();
+
+	
+	int BuscarRegistro();
+	void EliminarRegistro();
+	void ModificarRegistro(); 
+
+};
+#include "StdAfx.h"
+#include "dia.h"
+
+
+
+
+dia::~dia(void)
+{
+}
+#pragma once
+#include <iostream>
+#include <string>
+#include "math.h"
+ using namespace std;
+class dia
+{
+protected: float horas[48];
+		   string act[48]; 
+		   float d1,d2, t1,coor;
+public:
+	dia(void)
+	{ for(int a=0;a<48;a++)
+	  {horas[a]=0;
+	  }
+	}
+	~dia(void);
+	
+	void almacenar(float hi, float hf, float c, string nom)
+	{ int a=((int)hi-7)*4; 
+	  int b=((int)hf-7)*4-1; 
+	  coor=c;
+	  for (int cont=a;cont<=b;cont++)
+	     { horas[cont]=c;
+	       act[cont]=nom;
+	     }
+	}
+
+void mostrar()
+{system("cls");
+for (int a=0; a<48;a++)
+{if (horas[a]!=0)
+{cout<<((float)a/4)+7<< "    "<<act[a]<<endl;
+}}
+}
+};
+#include "StdAfx.h"
+#include "Datos.h"
+
+Datos::Datos()
+{ nombre =  "" ;
+  Hinicio = 0 ;
+  Hfin = 0 ;
+  Coordenadas = 0.0;
+ // Anillo = 0 ;
+}
+
+Datos::Datos(string n, int i, int f, float c  /*,int a*/)
+{ nombre =  n ;
+  Hinicio = i ;
+  Hfin = f ;
+  Coordenadas = c;
+  //Anillo = a ;
+}
+
+void Datos::setDatos(string n, int i, int f, float c /*, int a*/)
+{ nombre =  n ;
+  Hinicio = i ;
+  Hfin = f ;
+  Coordenadas = c;
+  //Anillo = a ;
+}
+Datos::~Datos(void)
+{
+}
+
+void Datos::GuardarArchivo(ofstream &fsalida)
+{fsalida.write(reinterpret_cast<char *>(&nombre), sizeof(nombre));
+ fsalida.write(reinterpret_cast<char *>(&Hinicio), sizeof(Hinicio));
+ fsalida.write(reinterpret_cast<char *>(&Hfin), sizeof(Hfin));
+ fsalida.write(reinterpret_cast<char *>(&Coordenadas), sizeof(Coordenadas));
+// fsalida.write(reinterpret_cast<char *>(&Anillo), sizeof(Anillo));
+}
+
+bool Datos::LeerArchivo(ifstream &fentrada)
+{ bool k = false;
+		if (fentrada.is_open() == true) {
+			fentrada.read(reinterpret_cast<char *>(&nombre), sizeof(nombre));
+			if (fentrada.eof() == false) {				
+				fentrada.read(reinterpret_cast<char *>(&Hinicio), sizeof(Hinicio));
+				fentrada.read(reinterpret_cast<char *>(&Hfin), sizeof(Hfin));
+				fentrada.read(reinterpret_cast<char *>(&Coordenadas), sizeof(Coordenadas));
+				//fentrada.read(reinterpret_cast<char *>(&Anillo), sizeof(Anillo));
+				k = true;
+			}else {
+				//cout << endl << "Registro no existe";
+			}
+		}else {
+			cout<< endl << "Arhivo no existe";
+		}
+		return(k);
+}
+
+bool Datos::EliminarArchivo(fstream &fes, int nroReg)
+{bool k = false;
+		if (fes.is_open() == true) {
+			fes.seekg(getTamBytesRegistro() * (nroReg - 1), ios::beg);
+			fes.read(reinterpret_cast<char *>(&nombre), sizeof(nombre));
+			if (fes.eof() == false) {
+				fes.read(reinterpret_cast<char *>(&Hinicio), sizeof(Hinicio));
+				fes.read(reinterpret_cast<char *>(&Hfin), sizeof(Hfin));
+				fes.read(reinterpret_cast<char *>(&Coordenadas), sizeof(Coordenadas));
+				//fes.read(reinterpret_cast<char *>(&Anillo), sizeof(Anillo));
+		
+			
+				fes.seekp(getTamBytesRegistro() * (nroReg - 1), ios::beg);
+				fes.write(reinterpret_cast<char *>(&nombre), sizeof(nombre));
+				fes.write(reinterpret_cast<char *>(&Hinicio), sizeof(Hinicio));
+				fes.write(reinterpret_cast<char *>(&Hfin), sizeof(Hfin));
+				fes.write(reinterpret_cast<char *>(&Coordenadas), sizeof(Coordenadas));
+				//fes.write(reinterpret_cast<char *>(&Anillo), sizeof(Anillo));
+				k = true;
+			}else {
+				cout << endl << "Registro no existe";
+			}			
+		}else {
+			cout << endl << "Arhivo no existe";
+		}
+		return(k);
+}
+
+bool Datos::ModificarArchivo(fstream &fes, int nroReg)
+{bool k;
+		if (fes.is_open() == true) {
+			string nomAux;
+			nomAux=nombre;
+			fes.seekg(getTamBytesRegistro() * (nroReg - 1), ios::beg);
+			fes.read(reinterpret_cast<char *>(&nombre), sizeof(nombre));
+			if (fes.eof() == false) {
+				nombre=nomAux;
+				
+				fes.seekp(getTamBytesRegistro() * (nroReg - 1), ios::beg);
+				fes.write(reinterpret_cast<char *>(&nombre), sizeof(nombre));
+				fes.write(reinterpret_cast<char *>(&Hinicio), sizeof(Hinicio));
+				fes.write(reinterpret_cast<char *>(&Hfin), sizeof(Hfin));
+				fes.write(reinterpret_cast<char *>(&Coordenadas), sizeof(Coordenadas));
+				//fes.write(reinterpret_cast<char *>(&Anillo), sizeof(Anillo));
+				k = true;
+			}else {
+				cout << endl << "Registro no existe";
+			}			
+		}else {k=false;
+			cout << endl << "Arhivo no existe";
+		}
+		return (k);
+		bool t = false;
+		if (fes.is_open() == true) {
+			string nomAux;
+			nomAux=nombre;
+			fes.seekg(getTamBytesRegistro() * (nroReg - 1), ios::beg);
+			fes.read(reinterpret_cast<char *>(&nombre), sizeof(nombre));
+			if (fes.eof() == false) {
+				nombre=nomAux;
+				
+				fes.seekp(getTamBytesRegistro() * (nroReg - 1), ios::beg);
+				fes.write(reinterpret_cast<char *>(&nombre), sizeof(nombre));
+				fes.write(reinterpret_cast<char *>(&Hinicio), sizeof(Hinicio));
+				fes.write(reinterpret_cast<char *>(&Hfin), sizeof(Hfin));
+				fes.write(reinterpret_cast<char *>(&Coordenadas), sizeof(Coordenadas));
+				//fes.write(reinterpret_cast<char *>(&Anillo), sizeof(Anillo));
+				t = true;
+			}else {
+				cout << endl << "Registro no existe";
+			}			
+		}else {
+			cout << endl << "Arhivo no existe";
+		}
+		return(t);
+}
+
+
+bool Datos::BuscarArchivo(ifstream &fentrada, int nroReg)
+{bool k = false;
+		if (fentrada.is_open() == true) {
+			fentrada.seekg(getTamBytesRegistro() * (nroReg - 1), ios::beg);
+			fentrada.read(reinterpret_cast<char *>(&nombre), sizeof(nombre));
+			fentrada.read(reinterpret_cast<char *>(&Hinicio), sizeof(Hinicio));
+			fentrada.read(reinterpret_cast<char *>(&Hfin), sizeof(Hfin));
+			fentrada.read(reinterpret_cast<char *>(&Coordenadas), sizeof(Coordenadas));
+			//fentrada.read(reinterpret_cast<char *>(&Anillo), sizeof(Anillo));
+			if (fentrada.eof() == false) {
+				k = true;
+			}
+			else {
+				//cout << endl << "Registro no XX existe";
+			}
+		}
+		else {
+			cout << endl << "Arhivo no existe";
+		}
+		return(k);
+}
+
+
+int Datos::getTamBytesRegistro()
+{return(sizeof(nombre) + sizeof(Hinicio) + sizeof(Hfin) + sizeof(Coordenadas)/*+ sizeof(Anillo)*/ );
+}
+
+string Datos::getNombre()
+{ return nombre ;
+}
+int Datos::getHinicio()
+	{return Hinicio ;}
+int Datos::getHfin()
+	{return Hfin;}
+int Datos::getCoordenadas()
+{return Coordenadas;}
+#pragma once
+#include <string>
+#include <fstream>
+#include <iostream>
+ using namespace std;
+class Datos
+{
+private:
+	string nombre ;
+	int Hinicio , Hfin ;
+	float Coordenadas ;
+	//int Anillo ;
+public:
+	Datos (void);
+	~Datos(void);
+	Datos (string n, int i, int f, float c /*, int a*/);
+	void setDatos(string n, int i, int f, float c  /*,int a*/);
+	string getNombre();
+	int getHinicio();
+	int getHfin();
+	int getCoordenadas();
+	//int getAnillo();
+
+	
+	void GuardarArchivo(ofstream &fsalida);
+	bool LeerArchivo(ifstream &fentrada);
+	bool EliminarArchivo (fstream &fes, int nroReg);
+	bool ModificarArchivo(fstream &fes, int nroReg); // fes?
+	bool BuscarArchivo(ifstream &entrada , int nroReg);
+	int getTamBytesRegistro();
+};
+#pragma once
+#include "dia.h"
+
+class actividades : public dia
+{
+private: 
+	int top, ini, clav;
+	float hor[50], hora;
+	string temp[50];
+	float cor[50]; 
+	float tmp;
+public:
+	actividades(void)
+	{top=-1;ini=-1;
+	}
+	~actividades(void);
+	
+	void encolar (float a, float c, string act)
+	{ top++;
+	   hor[top]=a*4;
+	   cor[top]=c;
+	   for(int i=0;i<50;i++)
+	   {temp[top]=act;
+	   }
+
+	}
+	float distancia(float num)
+	{float a1=abs((int)coor-(int)num);
+	if(a1>10)
+	{a1=20-a1;
+	}
+	float a2=abs((coor-(int)coor)-(num-(int)num));
+	float t=a1*3+a2*20;
+	return t;
+	}
+	int ultim()
+	{for( int a=0;a<48;a++)
+	{if (horas[a]==0)
+	{return a;
+	}
+	}
+	}
+	void traspaso()
+	{  bool band;
+		do{ band=true;
+		float ti=distancia(cor[0]);
+		for(int a=ini+1;a<=top;a++)
+		{if (distancia(cor[a])<ti)
+		{ti=distancia(cor[a]);
+		hora=hor[a];
+		clav=a;
+		}
+		}
+		ti=((int)ti+1)/15;
+		do{ti--;tmp++;
+		}while(ti>0);
+		for(int i=ultim(); i<(ultim()+1+hora);i++)
+		{if (horas[i]!=0)
+		{band=false; hor[clav]=hor[0];
+		hor[0]=hora;
+		ti=distancia(cor[clav]); cor[clav]=cor[0]; cor[0]=ti;
+		ini++;
+		}
+		else {coor=cor[clav];
+		      for (int cont=ultim()+ti;cont<(ultim()+tmp+hora);cont++)
+	     { horas[cont]=coor;
+	       act[cont]=temp[clav];
+		   coor=cor[clav];
+	     }
+		for (int a=clav;a
+			<49;a++)
+		{hor[a]=hor[a+1];
+		cor[a]=cor[a+1];
+		temp[a]=temp[a+1];
+		}
+		}
+		}}while(band!=true);
+
+	}
+};
+#include "StdAfx.h"
+#include "actividades.h"
+
+
+
+
+actividades::~actividades(void)
+{
+}
